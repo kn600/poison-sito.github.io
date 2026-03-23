@@ -21,7 +21,7 @@
     /* Cursore aggressivo */
 }
 
-body {
+body, html {
     background-color: var(--bg-color);
     color: var(--text-color);
     font-family: var(--font-primary);
@@ -30,7 +30,8 @@ body {
     line-height: 1.5;
     letter-spacing: 2px;
     overflow-x: hidden;
-    padding: clamp(15px, 3vw, 50px);
+    max-width: 100vw;
+    padding: clamp(10px, 3vw, 50px);
     enable-background: var(--accent-1);
     lighting-color: var(--bg-color);
 }
@@ -125,27 +126,31 @@ body::before {
 }
 
 .glitch {
-    font-size: 18vw;
+    font-size: clamp(3rem, 15vw, 12rem);
     position: relative;
     color: var(--accent-1);
     display: inline-block;
     letter-spacing: 0px;
-    margin-bottom: -2vw;
-    transform: scale(1.1, 0.85);
-    /* Schiaccia e allarga */
+    margin-bottom: 20px;
+    transform: scale(1, 0.9);
+    overflow-wrap: break-word;
+    max-width: 100%;
 }
 
 
 
 .subtitle {
     font-family: var(--font-mono);
-    font-size: clamp(1rem, 3.5vw, 1.5rem);
-    letter-spacing: clamp(4px, 1.5vw, 12px);
+    font-size: clamp(0.8rem, 3vw, 1.5rem);
+    letter-spacing: clamp(1px, 1.5vw, 12px);
     color: var(--accent-2);
     background-color: var(--text-color);
     color: var(--bg-color);
     display: inline-block;
-    padding: 5px 15px;
+    padding: 10px;
+    text-align: center;
+    max-width: 100%;
+    overflow-wrap: break-word;
 }
 
 /* Sezioni Principali */
@@ -169,12 +174,13 @@ main {
 }
 
 .brutal-box {
-    border: 6px solid var(--text-color);
-    padding: clamp(20px, 5vw, 40px);
+    border: clamp(3px, 1vw, 6px) solid var(--text-color);
+    padding: clamp(20px, 4vw, 40px);
     background: var(--bg-color);
-    box-shadow: 15px 15px 0 var(--accent-1);
+    box-shadow: clamp(6px, 2vw, 15px) clamp(6px, 2vw, 15px) 0 var(--accent-1);
     transition: transform 0.1s, box-shadow 0.1s;
     position: relative;
+    margin: 0px clamp(6px, 2vw, 15px) clamp(6px, 2vw, 15px) 0px; /* Margine per far respirare le ombre nel grid */
 }
 
 .brutal-box:hover {
@@ -183,15 +189,17 @@ main {
 }
 
 h2 {
-    font-size: clamp(2.5rem, 8vw, 4rem);
+    font-size: clamp(2rem, 7vw, 4rem);
     margin-bottom: clamp(15px, 4vw, 30px);
     display: inline-block;
     -webkit-text-stroke: 1px var(--bg-color);
     color: var(--accent-1);
     transition: color 0.1s, transform 0.1s, text-shadow 0.2s;
     letter-spacing: 2px;
-    transform: scale(1.1, 0.9);
+    transform: scale(1, 0.9);
     transform-origin: left center;
+    overflow-wrap: break-word;
+    max-width: 100%;
 }
 
 .brutal-box:hover h2 {
@@ -275,14 +283,14 @@ address {
 /* Color Selector Styles */
 .color-selector {
     position: fixed;
-    bottom: 20px;
-    right: 20px;
+    bottom: 10px;
+    right: 10px;
     padding: 10px;
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-end;
-    max-width: calc(100vw - 40px);
-    gap: 10px;
+    max-width: 90vw;
+    gap: 8px;
     z-index: 9999;
     background: var(--bg-color);
     border-width: 3px;

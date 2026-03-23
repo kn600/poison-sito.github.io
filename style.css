@@ -180,7 +180,8 @@ main {
     box-shadow: clamp(6px, 2vw, 15px) clamp(6px, 2vw, 15px) 0 var(--accent-1);
     transition: transform 0.1s, box-shadow 0.1s;
     position: relative;
-    margin: 0px clamp(6px, 2vw, 15px) clamp(6px, 2vw, 15px) 0px; /* Margine per far respirare le ombre nel grid */
+    width: calc(100% - clamp(6px, 2vw, 15px)); /* Toglie esattamente i pixel dell'ombra dalla larghezza */
+    margin-bottom: clamp(6px, 2vw, 15px); /* Margine solo sotto, destra è gestita dalla width */
 }
 
 .brutal-box:hover {
@@ -258,7 +259,7 @@ address {
 /* Footer / Socials */
 .socials {
     max-width: 1400px;
-    margin: 40px auto;
+    margin-top: 40px;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;

@@ -30,7 +30,7 @@ body {
     line-height: 1.5;
     letter-spacing: 2px;
     overflow-x: hidden;
-    padding: 3vw;
+    padding: clamp(15px, 3vw, 50px);
     enable-background: var(--accent-1);
     lighting-color: var(--bg-color);
 }
@@ -104,7 +104,7 @@ body::before {
 }
 
 .loader-text {
-    font-size: 8rem;
+    font-size: clamp(3rem, 15vw, 8rem);
     font-family: var(--font-mono);
     color: var(--accent-1);
     font-weight: bold;
@@ -139,8 +139,8 @@ body::before {
 
 .subtitle {
     font-family: var(--font-mono);
-    font-size: 1.5rem;
-    letter-spacing: 12px;
+    font-size: clamp(1rem, 3.5vw, 1.5rem);
+    letter-spacing: clamp(4px, 1.5vw, 12px);
     color: var(--accent-2);
     background-color: var(--text-color);
     color: var(--bg-color);
@@ -152,7 +152,7 @@ body::before {
 main {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 40px;
+    gap: clamp(20px, 4vw, 40px);
     max-width: 1400px;
     margin: 0 auto;
 }
@@ -170,7 +170,7 @@ main {
 
 .brutal-box {
     border: 6px solid var(--text-color);
-    padding: 40px;
+    padding: clamp(20px, 5vw, 40px);
     background: var(--bg-color);
     box-shadow: 15px 15px 0 var(--accent-1);
     transition: transform 0.1s, box-shadow 0.1s;
@@ -183,8 +183,8 @@ main {
 }
 
 h2 {
-    font-size: 4rem;
-    margin-bottom: 30px;
+    font-size: clamp(2.5rem, 8vw, 4rem);
+    margin-bottom: clamp(15px, 4vw, 30px);
     display: inline-block;
     -webkit-text-stroke: 1px var(--bg-color);
     color: var(--accent-1);
@@ -202,7 +202,7 @@ p,
 .event-list li,
 address {
     font-family: var(--font-mono);
-    font-size: 1.5rem;
+    font-size: clamp(1rem, 3vw, 1.5rem);
     line-height: 2;
     /* Allunga l'interlinea */
     text-transform: none;
@@ -238,7 +238,7 @@ address {
 /* Indirizzo */
 address {
     font-style: normal;
-    font-size: 2rem;
+    font-size: clamp(1.2rem, 4vw, 2rem);
     background: var(--text-color);
     color: var(--bg-color);
     padding: 20px;
@@ -261,7 +261,7 @@ address {
 .social-link {
     color: var(--text-color);
     text-decoration: none;
-    font-size: 3rem;
+    font-size: clamp(1.8rem, 6vw, 3rem);
     position: relative;
     transition: all 0.2s;
 }
@@ -279,6 +279,9 @@ address {
     right: 20px;
     padding: 10px;
     display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    max-width: calc(100vw - 40px);
     gap: 10px;
     z-index: 9999;
     background: var(--bg-color);

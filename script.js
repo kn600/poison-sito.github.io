@@ -123,16 +123,11 @@ document.addEventListener('DOMContentLoaded', () => {
         box.addEventListener('mouseenter', () => {
             const randomRotation = Math.floor(Math.random() * 4) - 2; // tra -2 e 2 gradi
             box.style.transform = `translate(-5px, -5px) rotate(${randomRotation}deg)`;
-            
-            // Randomizza il colore dell'ombra tra i colori disponibili
-            const colors = ['var(--accent-1)', 'var(--accent-2)'];
-            box.style.boxShadow = `15px 15px 0 ${colors[Math.floor(Math.random() * colors.length)]}`;
         });
 
         // Ripristino
         box.addEventListener('mouseleave', () => {
             box.style.transform = '';
-            box.style.boxShadow = '';
         });
     });
 

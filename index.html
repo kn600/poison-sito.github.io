@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POISON | Centro Sociale | Carpi</title>
+    <!-- Fallback font per lo Swiss Black 721 incase non sia disponibile nativamente -->
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="ascii-loader" class="loader-overlay">
+        <div class="loader-text" id="loader-eye">[-_-]</div>
+    </div>
+    <canvas id="vector-field"></canvas>
+    <div class="crt-overlay"></div>
+
+    <header class="main-header">
+        <h1 class="glitch" data-text="POISON">POISON</h1>
+        <p class="subtitle">CENTRO SOCIALE // CARPI</p>
+    </header>
+
+    <main>
+        <a href="chi-siamo.html" class="link-box">
+            <section class="manifesto brutal-box">
+                <h2>CONTRO/CULTURA</h2>
+                <p>Spazio autogestito. Musica, arte, e tartufi.</p>
+                <br>
+                <p style="color: var(--accent-1);">> [ Clicca qui per scoprire la nostra Realtà ]</p>
+            </section>
+        </a>
+
+        <section class="events brutal-box">
+            <h2>INIZIATIVE</h2>
+            <ul class="event-list">
+                <li><span class="date">PROSSIMAMENTE</span> — Palle</li>
+                <li><span class="date">TBA</span> — Live di Palle</li>
+            </ul>
+        </section>
+
+        <section class="location brutal-box">
+            <h2>DOVE SIAMO</h2>
+            <address style="margin-bottom: 25px;">
+                Via A. Tassoni, 6<br>
+                41012 Carpi (MO)
+            </address>
+
+            <!-- Mappa Interattiva filtrata stile dark/cyberpunk -->
+            <div class="map-container" style="border: 2px solid var(--text-color); line-height: 0; position: relative;">
+                <iframe width="100%" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
+                    src="https://maps.google.com/maps?q=Via%20Antonio%20Tassoni%2C%206%2C%20Carpi&t=&z=16&ie=UTF8&iwloc=&output=embed"
+                    style="filter: grayscale(100%) invert(95%) contrast(140%); pointer-events: auto;">
+                </iframe>
+            </div>
+        </section>
+    </main>
+
+    <footer class="socials brutal-box">
+        <a href="#" class="social-link">INSTAGRAM</a>
+        <a href="#" class="social-link">WHATSAPP</a>
+    </footer>
+
+    <!-- Color Selector UI -->
+    <div id="color-selector" class="color-selector brutal-box">
+        <div class="color-btn" data-color="1" style="--c1:#D85816; --c2:#F3A02C;"></div>
+        <div class="color-btn" data-color="2" style="--c1:#B33236; --c2:#E36553;"></div>
+        <div class="color-btn" data-color="3" style="--c1:#912476; --c2:#D4649E;"></div>
+        <div class="color-btn" data-color="4" style="--c1:#6A009C; --c2:#C72481;"></div>
+        <div class="color-btn" data-color="5" style="--c1:#43269A; --c2:#7452A5;"></div>
+        <div class="color-btn" data-color="6" style="--c1:#1A3B95; --c2:#3063B2;"></div>
+        <div class="color-btn" data-color="7" style="--c1:#225A5C; --c2:#93B2A5;"></div>
+        <div class="color-btn" data-color="8" style="--c1:#184F11; --c2:#81B14E;"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

@@ -121,19 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const brutalBoxes = document.querySelectorAll('.brutal-box');
-
-    brutalBoxes.forEach(box => {
-        // Distorsione casuale geometrica
-        box.addEventListener('mouseenter', () => {
-            const randomRotation = Math.floor(Math.random() * 4) - 2; // tra -2 e 2 gradi
-            box.style.transform = `translate(-5px, -5px) rotate(${randomRotation}deg)`;
-        });
-
-        // Ripristino
-        box.addEventListener('mouseleave', () => {
-            box.style.transform = '';
-        });
-    });
+    // Box geometric distortion on hover removed.
 
     // Effetto distorsione testo sui titoli quando cliccati
     const headers = document.querySelectorAll('h2, .glitch');
@@ -217,6 +205,40 @@ document.addEventListener('DOMContentLoaded', () => {
                 pTimer = setTimeout(() => {
                     clickCount = 0;
                 }, 2000); // Reset dopo 2 secondi
+            }
+        });
+    }
+
+    // Easter Egg: Clicca 5 volte la "N" per DOOM In ASCII
+    const nTrigger = document.getElementById('easter-egg-2');
+    if (nTrigger) {
+        let nClickCount = 0;
+        let nTimer;
+        
+        nTrigger.style.cursor = 'crosshair';
+
+        nTrigger.addEventListener('mousedown', (e) => {
+            e.stopPropagation();
+            nClickCount++;
+            
+            // Feedback visivo rosso/sangue
+            const h1 = document.querySelector('.glitch');
+            if (h1) {
+                h1.style.color = 'var(--accent-1)';
+                h1.style.transform = `scale(1.1) skewY(${Math.floor(Math.random() * 40 - 20)}deg)`;
+                setTimeout(() => {
+                    h1.style.color = '';
+                    h1.style.transform = '';
+                }, 150);
+            }
+
+            clearTimeout(nTimer);
+            if (nClickCount >= 5) {
+                window.location.href = 'secret-doom.html';
+            } else {
+                nTimer = setTimeout(() => {
+                    nClickCount = 0;
+                }, 2000);
             }
         });
     }

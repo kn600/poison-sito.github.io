@@ -5,8 +5,10 @@
     --text-color: #f0f0f0;
 
     /* Colori Istituzionali Poison Carpi (Set 4 di Default) */
-    --accent-1: #6A009C; /* Viola Scuro */
-    --accent-2: #C72481; /* Magenta Chiaro */
+    --accent-1: #6A009C;
+    /* Viola Scuro */
+    --accent-2: #C72481;
+    /* Magenta Chiaro */
 
     /* Font richiesto: Swiss Black 721 */
     --font-primary: 'Swis721 Blk BT', 'Swiss 721 Black', 'Archivo Black', 'Arial Black', sans-serif;
@@ -39,6 +41,7 @@ body {
     background-color: var(--accent-2);
     color: var(--bg-color);
 }
+
 ::-moz-selection {
     background-color: var(--accent-2);
     color: var(--bg-color);
@@ -295,7 +298,8 @@ address {
     transition: transform 0.2s;
 }
 
-.color-btn:hover, .color-btn.active {
+.color-btn:hover,
+.color-btn.active {
     transform: scale(1.1) translateY(-2px);
     border-color: #fff;
 }
@@ -349,7 +353,8 @@ address {
     margin-bottom: 25px;
     gap: 20px;
     width: 100%;
-    padding-right: 140px; /* Offset per bilanciare i 120px + 20px gap dell'etichetta sinistra */
+    padding-right: 140px;
+    /* Offset per bilanciare i 120px + 20px gap dell'etichetta sinistra */
 }
 
 .seq-label {
@@ -402,16 +407,19 @@ address {
     .seq-row {
         padding-right: 0;
     }
+
     .seq-step {
         height: 50px;
     }
+
     /* Hard-limit width */
-    html, body {
+    html,
+    body {
         width: 100vw;
         max-width: 100vw;
         overflow-x: hidden;
     }
-    
+
     body {
         padding: 5vw;
     }
@@ -441,9 +449,10 @@ address {
         border-width: 4px;
         box-shadow: 8px 8px 0 var(--accent-1);
         width: calc(100% - 10px);
-        margin-bottom: 5px; /* Spazio in basso */
+        margin-bottom: 5px;
+        /* Spazio in basso */
     }
-    
+
     .brutal-box:hover {
         transform: translate(-3px, -3px);
         box-shadow: 11px 11px 0 var(--accent-2);
@@ -468,12 +477,14 @@ address {
         max-width: 100%;
     }
 
-    p, .event-list li, address {
+    p,
+    .event-list li,
+    address {
         font-size: 1.1rem;
         word-break: break-word;
         max-width: 100%;
     }
-    
+
     address {
         font-size: 1.3rem;
     }

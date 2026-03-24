@@ -263,6 +263,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             document.getElementById('win-screen').style.display = 'block';
                             isPlaying = false;
                             screen.style.cursor = 'pointer';
+                            if(audioCtx) playVictoryJingle();
                         }, 500);
                     }
                     
@@ -447,6 +448,34 @@ document.addEventListener('DOMContentLoaded', () => {
         
         osc.start(time);
         osc.stop(time + 0.3);
+    }
+
+    function playVictoryJingle() {
+        let t = audioCtx.currentTime;
+        const notes = [
+            {f: 523.25, d: 0.15}, // C5
+            {f: 659.25, d: 0.15}, // E5
+            {f: 783.99, d: 0.15}, // G5
+            {f: 1046.50, d: 0.6}  // C6
+        ];
+        
+        notes.forEach(note => {
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'square';
+            osc.frequency.value = note.f;
+            
+            gain.gain.setValueAtTime(0, t);
+            gain.gain.linearRampToValueAtTime(0.3, t + 0.02);
+            gain.gain.exponentialRampToValueAtTime(0.01, t + note.d);
+            
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            
+            osc.start(t);
+            osc.stop(t + note.d);
+            t += note.d;
+        });
     }
 
     startBtn.addEventListener('click', () => {

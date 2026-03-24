@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const animateLoader = setInterval(() => {
             loaderEye.textContent = loaderFrames[frameIndex];
             frameIndex++;
-            
+
             if (frameIndex >= loaderFrames.length) {
                 clearInterval(animateLoader);
                 loaderOverlay.classList.add('hidden');
@@ -37,10 +37,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const ctx = canvas.getContext('2d');
         let width, height;
         let startTime = Date.now();
-        
+
         // Spaziatura per la griglia di testo
-        const gridSpacing = 60; 
-        
+        const gridSpacing = 60;
+
         const resize = () => {
             width = canvas.width = window.innerWidth;
             height = canvas.height = window.innerHeight;
@@ -51,15 +51,15 @@ document.addEventListener('DOMContentLoaded', () => {
         };
         window.addEventListener('resize', resize);
         resize();
-        
+
         // Stati dell'apertura degli occhi (da apertissimi a chiusi)
         const eyeStates = [
-            '[O_O]', 
-            '(o_o)', 
-            '(._.)', 
+            '[O_O]',
+            '(o_o)',
+            '(._.)',
             '(-_-)'
         ];
-        
+
         const maxDist = 600; // Zona di transizione dell'onda
         const coreThickness = 150; // "Cuore" dell'onda in cui le faccine sono apertissime
 
@@ -68,50 +68,50 @@ document.addEventListener('DOMContentLoaded', () => {
             const rootStyle = getComputedStyle(document.documentElement);
             const a1 = rootStyle.getPropertyValue('--accent-1').trim();
             const a2 = rootStyle.getPropertyValue('--accent-2').trim();
-            
+
             ctx.clearRect(0, 0, width, height);
-            
+
             const time = Date.now() - startTime;
             // Calcola la posizione Y base dell'onda
-            const waveSpeed = 0.25; 
+            const waveSpeed = 0.25;
             const cycle = height + maxDist * 3;
             let waveY = (time * waveSpeed) % cycle - maxDist;
-            
-            for (let y = gridSpacing/2; y < height; y += gridSpacing) {
-                for (let x = gridSpacing/2; x < width; x += gridSpacing) {
+
+            for (let y = gridSpacing / 2; y < height; y += gridSpacing) {
+                for (let x = gridSpacing / 2; x < width; x += gridSpacing) {
                     // Crea una sinusoide per farla sembrare un'onda in movimento
                     const waveOffset = Math.sin(x * 0.005 + time * 0.002) * 150;
                     const wavePos = waveY + waveOffset;
-                    
+
                     // Distanza dall'onda
                     const dist = Math.abs(y - wavePos);
                     const effectiveDist = Math.max(0, dist - coreThickness);
-                    
+
                     // Calcola quale "stato" dell'occhio usare
                     let stateIndex = Math.floor((effectiveDist / maxDist) * eyeStates.length);
                     if (stateIndex >= eyeStates.length) stateIndex = eyeStates.length - 1;
                     if (stateIndex < 0) stateIndex = 0;
-                    
+
                     const eyeStr = eyeStates[stateIndex];
-                    
+
                     // Colore in base a quanto sono aperti - resi più visibili
                     if (stateIndex === 0 || stateIndex === 1) {
-                        ctx.fillStyle = a2; 
+                        ctx.fillStyle = a2;
                         ctx.globalAlpha = stateIndex === 0 ? 1.0 : 0.85;
                     } else if (stateIndex === 2) {
-                        ctx.fillStyle = 'rgba(255, 255, 255, 0.7)'; 
+                        ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
                         ctx.globalAlpha = 1;
                     } else {
-                        ctx.fillStyle = 'rgba(255, 255, 255, 0.4)'; 
+                        ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
                         ctx.globalAlpha = 1;
                     }
-                    
+
                     // Parallasse: gli occhi guardano "verso" l'onda
                     const dy = wavePos - y;
                     // L'entità dello spostamento diminuisce con la distanza dall'onda
-                    const lookDist = Math.min(15, 500 / (dist + 1)); 
+                    const lookDist = Math.min(15, 500 / (dist + 1));
                     const lookY = y + (Math.sign(dy) * lookDist * 0.5); // Guardano su o giù
-                    
+
                     ctx.fillText(eyeStr, x, lookY);
                 }
             }
@@ -131,7 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
             h2.style.color = 'var(--accent-2)';
             h2.style.textShadow = 'none';
         });
-        
+
         const resetTitle = () => {
             h2.style.transform = '';
             h2.style.color = '';
@@ -145,7 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Selettore Colore
     const colorBtns = document.querySelectorAll('.color-btn');
     const root = document.documentElement;
-    
+
     // Evidenzia il bottone salvato (o quello di default) attingendo dai colori attuali
     const currentA1 = savedC1 || getComputedStyle(root).getPropertyValue('--accent-1').trim();
     colorBtns.forEach(b => {
@@ -158,7 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.addEventListener('click', () => {
             const c1 = btn.style.getPropertyValue('--c1').trim();
             const c2 = btn.style.getPropertyValue('--c2').trim();
-            
+
             root.style.setProperty('--accent-1', c1);
             root.style.setProperty('--accent-2', c2);
 
@@ -179,13 +179,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (pTrigger) {
         let clickCount = 0;
         let pTimer;
-        
+
         pTrigger.style.cursor = 'pointer';
 
         pTrigger.addEventListener('mousedown', (e) => {
             e.stopPropagation(); // Evita l'effetto glitch standard se si clicca esattamente sulla P
             clickCount++;
-            
+
             // Piccolo feedback visivo
             const h1 = document.querySelector('.glitch');
             if (h1) {
@@ -214,13 +214,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (nTrigger) {
         let nClickCount = 0;
         let nTimer;
-        
+
         nTrigger.style.cursor = 'crosshair';
 
         nTrigger.addEventListener('mousedown', (e) => {
             e.stopPropagation();
             nClickCount++;
-            
+
             // Feedback visivo rosso/sangue
             const h1 = document.querySelector('.glitch');
             if (h1) {

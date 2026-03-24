@@ -9,39 +9,62 @@ document.addEventListener('DOMContentLoaded', () => {
     const FOV = Math.PI / 3;
     const depth = 16.0;
 
-    let playerX = 8.0;
-    let playerY = 8.0;
-    let playerA = 0.0;
-
-    const map = [
-        "################",
-        "#              #",
-        "#  ###    ###  #",
-        "#  #        #  #",
-        "#  #  ####  #  #",
-        "#  #  #  #  #  #",
-        "#     #  #     #",
-        "#######  #######",
-        "#              #",
-        "#  #        #  #",
-        "#  ###    ###  #",
-        "#              #",
-        "#  ##########  #",
-        "#  #        #  #",
-        "#              #",
-        "################"
-    ].join("");
     const mapWidth = 16;
     const mapHeight = 16;
+    let mapArray = new Array(mapWidth * mapHeight).fill('#');
+    
+    // Generazione Labirinto (Recursive Backtracker scavando corridoi partendo da 1,1)
+    function carveMaze(x, y) {
+        mapArray[y * mapWidth + x] = ' ';
+        let dirs = [[0, -1], [0, 1], [-1, 0], [1, 0]];
+        // Mischia direzioni
+        for (let i = dirs.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [dirs[i], dirs[j]] = [dirs[j], dirs[i]];
+        }
+        
+        for (let [dx, dy] of dirs) {
+            let nx = x + dx * 2;
+            let ny = y + dy * 2;
+            if (nx > 0 && nx < mapWidth - 1 && ny > 0 && ny < mapHeight - 1 && mapArray[ny * mapWidth + nx] === '#') {
+                mapArray[(y + dy) * mapWidth + (x + dx)] = ' ';
+                carveMaze(nx, ny);
+            }
+        }
+    }
+    carveMaze(1, 1);
+    
+    // Assicura l'area di base da cui parte il player
+    mapArray[1 * mapWidth + 1] = ' ';
+    mapArray[1 * mapWidth + 2] = ' ';
+    mapArray[2 * mapWidth + 1] = ' ';
+    mapArray[2 * mapWidth + 2] = ' ';
+    
+    let playerX = 1.5;
+    let playerY = 1.5;
+    let playerA = Math.PI / 4; // Guarda in diagonale verso il centro del labirinto
 
-    let sprites = [
-        { x: 2.5, y: 2.5, active: true },
-        { x: 13.5, y: 2.5, active: true },
-        { x: 2.5, y: 13.5, active: true },
-        { x: 13.5, y: 13.5, active: true },
-        { x: 8.5, y: 2.5, active: true },
-        { x: 2.5, y: 8.5, active: true }
-    ];
+    // Piazziamo 6 teschi in spazi vuoti lontani dal punto d'inizio
+    let emptySpaces = [];
+    for (let y = 1; y < mapHeight - 1; y++) {
+        for (let x = 1; x < mapWidth - 1; x++) {
+            if (mapArray[y * mapWidth + x] === ' ' && (x > 4 || y > 4)) {
+                emptySpaces.push({x: x + 0.5, y: y + 0.5});
+            }
+        }
+    }
+    // Shuffle empty spaces
+    for (let i = emptySpaces.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [emptySpaces[i], emptySpaces[j]] = [emptySpaces[j], emptySpaces[i]];
+    }
+    
+    let sprites = [];
+    for (let i = 0; i < Math.min(6, emptySpaces.length); i++) {
+        sprites.push({ x: emptySpaces[i].x, y: emptySpaces[i].y, active: true });
+    }
+    
+    const map = mapArray.join('');
 
     let projectiles = [];
 
@@ -233,6 +256,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     s.active = false;
                     p.active = false;
                     if(audioCtx) playSquelch(audioCtx.currentTime);
+                    
+                    // Win Condition
+                    if (sprites.every(sprite => !sprite.active)) {
+                        setTimeout(() => {
+                            document.getElementById('win-screen').style.display = 'block';
+                            isPlaying = false;
+                            screen.style.cursor = 'pointer';
+                        }, 500);
+                    }
+                    
                     break;
                 }
             }
@@ -429,4 +462,11 @@ document.addEventListener('DOMContentLoaded', () => {
         scheduleAudio();
         requestAnimationFrame(loop);
     });
+
+    const winCloseBtn = document.getElementById('win-close');
+    if (winCloseBtn) {
+        winCloseBtn.addEventListener('click', () => {
+            window.location.href = 'index.html';
+        });
+    }
 });

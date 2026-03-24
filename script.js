@@ -36,8 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (canvas) {
         const ctx = canvas.getContext('2d');
         let width, height;
-        let mouseX = -1000;
-        let mouseY = -1000;
+        let startTime = Date.now();
         
         // Spaziatura per la griglia di testo
         const gridSpacing = 60; 
@@ -53,11 +52,6 @@ document.addEventListener('DOMContentLoaded', () => {
         window.addEventListener('resize', resize);
         resize();
         
-        document.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-        });
-        
         // Stati dell'apertura degli occhi (da apertissimi a chiusi)
         const eyeStates = [
             '[O_O]', 
@@ -66,7 +60,8 @@ document.addEventListener('DOMContentLoaded', () => {
             '(-_-)'
         ];
         
-        const maxDist = 350; // Distanza massima di reazione
+        const maxDist = 600; // Zona di transizione dell'onda
+        const coreThickness = 150; // "Cuore" dell'onda in cui le faccine sono apertissime
 
         const drawEyesField = () => {
             // Ottieni i colori attuali
@@ -76,39 +71,48 @@ document.addEventListener('DOMContentLoaded', () => {
             
             ctx.clearRect(0, 0, width, height);
             
+            const time = Date.now() - startTime;
+            // Calcola la posizione Y base dell'onda
+            const waveSpeed = 0.25; 
+            const cycle = height + maxDist * 3;
+            let waveY = (time * waveSpeed) % cycle - maxDist;
+            
             for (let y = gridSpacing/2; y < height; y += gridSpacing) {
                 for (let x = gridSpacing/2; x < width; x += gridSpacing) {
-                    const dx = mouseX - x;
-                    const dy = mouseY - y;
-                    const dist = Math.hypot(dx, dy);
+                    // Crea una sinusoide per farla sembrare un'onda in movimento
+                    const waveOffset = Math.sin(x * 0.005 + time * 0.002) * 150;
+                    const wavePos = waveY + waveOffset;
+                    
+                    // Distanza dall'onda
+                    const dist = Math.abs(y - wavePos);
+                    const effectiveDist = Math.max(0, dist - coreThickness);
                     
                     // Calcola quale "stato" dell'occhio usare
-                    let stateIndex = Math.floor((dist / maxDist) * eyeStates.length);
+                    let stateIndex = Math.floor((effectiveDist / maxDist) * eyeStates.length);
                     if (stateIndex >= eyeStates.length) stateIndex = eyeStates.length - 1;
                     if (stateIndex < 0) stateIndex = 0;
                     
                     const eyeStr = eyeStates[stateIndex];
                     
-                    // Colore in base a quanto sono aperti
+                    // Colore in base a quanto sono aperti - resi più visibili
                     if (stateIndex === 0 || stateIndex === 1) {
-                        ctx.fillStyle = a2; // Solo colore secondario/chiaro per highlight
-                        ctx.globalAlpha = stateIndex === 0 ? 1.0 : 0.6;
+                        ctx.fillStyle = a2; 
+                        ctx.globalAlpha = stateIndex === 0 ? 1.0 : 0.85;
                     } else if (stateIndex === 2) {
-                        ctx.fillStyle = 'rgba(240, 240, 240, 0.4)'; // Grigio semi-trasparente
+                        ctx.fillStyle = 'rgba(255, 255, 255, 0.7)'; 
                         ctx.globalAlpha = 1;
                     } else {
-                        ctx.fillStyle = 'rgba(240, 240, 240, 0.2)'; // Faccina addormentata flebile
+                        ctx.fillStyle = 'rgba(255, 255, 255, 0.4)'; 
                         ctx.globalAlpha = 1;
                     }
                     
-                    // Parallasse: gli occhi si "girano/spostano" leggermente verso il cursore
-                    const angle = Math.atan2(dy, dx);
-                    // L'entità dello spostamento diminuisce con la distanza
+                    // Parallasse: gli occhi guardano "verso" l'onda
+                    const dy = wavePos - y;
+                    // L'entità dello spostamento diminuisce con la distanza dall'onda
                     const lookDist = Math.min(15, 500 / (dist + 1)); 
-                    const lookX = x + Math.cos(angle) * lookDist;
-                    const lookY = y + Math.sin(angle) * lookDist;
-
-                    ctx.fillText(eyeStr, lookX, lookY);
+                    const lookY = y + (Math.sign(dy) * lookDist * 0.5); // Guardano su o giù
+                    
+                    ctx.fillText(eyeStr, x, lookY);
                 }
             }
             requestAnimationFrame(drawEyesField);
@@ -179,4 +183,41 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.classList.add('active');
         });
     });
+
+    // ==========================================
+    // Easter Egg Drum Machine
+    // ==========================================
+    const pTrigger = document.getElementById('easter-egg');
+    if (pTrigger) {
+        let clickCount = 0;
+        let pTimer;
+        
+        pTrigger.style.cursor = 'pointer';
+
+        pTrigger.addEventListener('mousedown', (e) => {
+            e.stopPropagation(); // Evita l'effetto glitch standard se si clicca esattamente sulla P
+            clickCount++;
+            
+            // Piccolo feedback visivo
+            const h1 = document.querySelector('.glitch');
+            if (h1) {
+                h1.style.color = 'var(--accent-2)';
+                h1.style.transform = `scale(1.1) skewX(${Math.floor(Math.random() * 40 - 20)}deg)`;
+                setTimeout(() => {
+                    h1.style.color = '';
+                    h1.style.transform = '';
+                }, 150);
+            }
+
+            clearTimeout(pTimer);
+            if (clickCount >= 5) {
+                // Vai alla pagina segreta
+                window.location.href = 'secret-drum.html';
+            } else {
+                pTimer = setTimeout(() => {
+                    clickCount = 0;
+                }, 2000); // Reset dopo 2 secondi
+            }
+        });
+    }
 });

@@ -44,18 +44,7 @@ body {
     color: var(--bg-color);
 }
 
-body::before {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: radial-gradient(circle at center, transparent 30%, var(--accent-2) 120%);
-    opacity: 0.20;
-    pointer-events: none;
-    z-index: -3; /* Dietro il vector-field */
-}
+/* Hue overlay removed as requested */
 
 /* Campo Vettoriale Sfondo */
 #vector-field {
@@ -66,7 +55,7 @@ body::before {
     height: 100vh;
     z-index: -2;
     pointer-events: none;
-    opacity: 0.35;
+    opacity: 0.75;
 }
 
 /* Effetto Vecchio Schermo CRT */
@@ -133,6 +122,12 @@ body::before {
     margin-bottom: -2vw;
     transform: scale(1.1, 0.85);
     /* Schiaccia e allarga */
+}
+
+/* Titolo più piccolo per parole lunghe (es. SEQUENCER) */
+.glitch.glitch-small {
+    font-size: 12vw;
+    margin-bottom: 0vw;
 }
 
 .subtitle {
@@ -306,10 +301,110 @@ address {
 }
 
 
+
+/* Drum Machine Styles */
+#transport {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 40px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.drum-control-btn {
+    background: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-mono);
+    font-size: 1.5rem;
+    font-weight: bold;
+    border: 3px solid var(--text-color);
+    padding: 10px 20px;
+    box-shadow: 5px 5px 0 var(--accent-1);
+    transition: transform 0.1s, box-shadow 0.1s;
+}
+
+.drum-control-btn:hover {
+    transform: translate(-3px, -3px);
+    box-shadow: 8px 8px 0 var(--accent-2);
+}
+
+.tempo-control {
+    font-family: var(--font-mono);
+    font-size: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+#bpm {
+    cursor: pointer;
+    accent-color: var(--accent-1);
+}
+
+.seq-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 25px;
+    gap: 20px;
+    width: 100%;
+    padding-right: 140px; /* Offset per bilanciare i 120px + 20px gap dell'etichetta sinistra */
+}
+
+.seq-label {
+    width: 120px;
+    text-align: right;
+    font-family: var(--font-primary);
+    font-size: 1.5rem;
+    color: var(--accent-1);
+    flex-shrink: 0;
+}
+
+.seq-steps {
+    display: flex;
+    gap: 4px;
+    flex-grow: 1;
+}
+
+.seq-step {
+    flex-grow: 1;
+    height: 70px;
+    background: var(--bg-color);
+    border: 3px solid var(--text-color);
+    transition: background 0.1s, transform 0.1s, box-shadow 0.1s;
+}
+
+.seq-step.beat-mark {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.seq-step:hover {
+    border-color: var(--accent-2);
+}
+
+.seq-step.active {
+    background: var(--text-color);
+    box-shadow: 3px 3px 0 var(--accent-1);
+    transform: translate(-2px, -2px);
+}
+
+.seq-step.current-step {
+    border-color: var(--accent-2) !important;
+    background: var(--accent-2);
+    box-shadow: 0 0 10px var(--accent-2);
+}
+
 /* =========================================
    ADATTAMENTO MOBILE
    ========================================= */
 @media (max-width: 900px) {
+    .seq-row {
+        padding-right: 0;
+    }
+    .seq-step {
+        height: 50px;
+    }
     /* Hard-limit width */
     html, body {
         width: 100vw;
